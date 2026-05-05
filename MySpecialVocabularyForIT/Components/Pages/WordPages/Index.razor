@@ -60,12 +60,16 @@
     <QuickGrid Class="table" Items="FilteredWords" Pagination="pagination">
         <PropertyColumn class="word-en" Sortable="true" Property="word => word.word_en" Title="Term in English" />
         <PropertyColumn Class="word-rus" Sortable="true" Property="word => word.word_rus" Title="Translation into Russian" />
-        <PropertyColumn Class="use-case" Sortable="true" Property="word => word.word_use_case" Title="Use explication" />
+        @* <PropertyColumn Class="use-case" Sortable="true" Property="word => word.word_use_case" Title="Use explication" /> *@
         @* <PropertyColumn Property="word => word.photo" /> *@
 
         <TemplateColumn Context="word">
             @*   <a href="@($"words/edit?word_id={word.word_id}")">Edit</a> | *@
-            <a href="@($"words/details?word_id={word.word_id}")">Details</a> 
+            <div style="display:flex;">
+                <div>
+                    <a href="@($"words/details?word_id={word.word_id}")" class="btn btn-primary custom-purple-button">Details</a>
+                </div>
+            </div>
             @*         <a href="@($"words/delete?word_id={word.word_id}")">Delete</a> *@
         </TemplateColumn>
     </QuickGrid>
