@@ -1,0 +1,67 @@
+﻿@page "/words/delete"
+@using Microsoft.EntityFrameworkCore
+@using MySpecialVocabularyForIT.Components.Models
+@inject IDbContextFactory<MySpecialVocabularyForIT.Data.MySpecialVocabularyForITContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>Word</h2>
+    <hr />
+    @if (word is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">word_en</dt>
+            <dd class="col-sm-10">@word.word_en</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">word_rus</dt>
+            <dd class="col-sm-10">@word.word_rus</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">word_use_case</dt>
+            <dd class="col-sm-10">@word.word_use_case</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">photo</dt>
+            <dd class="col-sm-10">@word.photo</dd>
+        </dl>
+        <EditForm method="post" Model="word" OnValidSubmit="DeleteWord" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(word is null)">Delete</button> |
+            <a href="/words">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Word? word;
+
+    [SupplyParameterFromQuery]
+    private int word_id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        word = await context.Words.FirstOrDefaultAsync(m => m.word_id == word_id);
+
+        if (word is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteWord()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Words.Remove(word!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/words");
+    }
+}

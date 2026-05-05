@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">MySpecialVocabularyForIT</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+       @*  <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div> *@
+
+        <ul class="nav flex-column">
+            <li class="nav-item px-3 mt-3 text-white">
+                <img src="svg/dictionary.svg" alt="Icon" style="width: 35px; height: 35px; " />
+                <strong>IT Vocabulary</strong>
+            </li>
+            <li class="nav-item px-3 mt-3">
+                <NavLink class="nav-link" href="words" Match="MatchMode">
+                    <img src="svg/enrus.svg" alt="Icon" style="width: 35px; height: 35px;" />
+					En/Rus vocabulary
+				</NavLink>
+            </li>
+     @*        <li class="nav-item px-3">
+                <NavLink class="nav-link" href="groups" Match="MatchMode">
+                    <img src="svg/group.svg" alt="Icon" style="width: 20px; height: 20px;" />
+                    Abbreviations
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="groups" Match="MatchMode">
+                    <img src="svg/group.svg" alt="Icon" style="width: 20px; height: 20px;" />
+                    Symbols
+                </NavLink>
+            </li> *@
+        </ul>
+
+        @* <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            </NavLink>
+        </div> *@
+    </nav>
+</div>
+@code {
+    private NavLinkMatch MatchMode { get; set; } = NavLinkMatch.All;
+}

@@ -1,0 +1,52 @@
+﻿@page "/words/details"
+@using Microsoft.EntityFrameworkCore
+@using MySpecialVocabularyForIT.Components.Models
+@inject IDbContextFactory<MySpecialVocabularyForIT.Data.MySpecialVocabularyForITContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Word</h2>
+    <hr />
+    @if (word is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Term in English:</dt>
+            <dd class="col-sm-10">@word.word_en</dd>
+            <dt class="col-sm-2">Translation into Russian:</dt>
+            <dd class="col-sm-10">@word.word_rus</dd>
+            <dt class="col-sm-2">Use explication:</dt>
+            <dd class="col-sm-10">@word.word_use_case</dd>
+            <dt class="col-sm-2">photo</dt>
+            <dd class="col-sm-10">@word.photo</dd>
+        </dl>
+        <div>
+            <a href="@($"/words/edit?word_id={word.word_id}")">Edit</a> |
+            <a href="@($"/words")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Word? word;
+
+    [SupplyParameterFromQuery]
+    private int word_id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        word = await context.Words.FirstOrDefaultAsync(m => m.word_id == word_id);
+
+        if (word is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

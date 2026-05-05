@@ -1,0 +1,106 @@
+﻿@page "/words/edit"
+@using Microsoft.EntityFrameworkCore
+@using MySpecialVocabularyForIT.Components.Models
+@inject IDbContextFactory<MySpecialVocabularyForIT.Data.MySpecialVocabularyForITContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Word</h2>
+<hr />
+@if (Word is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Word" OnValidSubmit="UpdateWord" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Word.word_id" value="@Word.word_id" />
+                <div class="mb-3">
+                <span class="text-danger">*</span>
+                    <label for="word_en" class="form-label">word_en:</label>
+                    <InputText id="word_en" @bind-Value="Word.word_en" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => Word.word_en" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                <span class="text-danger">*</span>
+                    <label for="word_rus" class="form-label">word_rus:</label>
+                    <InputText id="word_rus" @bind-Value="Word.word_rus" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => Word.word_rus" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="word_use_case" class="form-label">word_use_case:</label>
+                    <InputText id="word_use_case" @bind-Value="Word.word_use_case" class="form-control" />
+                    <ValidationMessage For="() => Word.word_use_case" class="text-danger" />
+                </div>
+                @* <div class="mb-3">
+                    <label for="photo" class="form-label">photo:</label>
+                    <InputText id="photo" @bind-Value="Word.photo" class="form-control" />
+                    <ValidationMessage For="() => Word.photo" class="text-danger" />
+                </div> *@
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/words">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int word_id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Word? Word { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Word ??= await context.Words.FirstOrDefaultAsync(m => m.word_id == word_id);
+
+        if (Word is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateWord()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Word!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!WordExists(Word!.word_id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/words");
+    }
+
+    private bool WordExists(int word_id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Words.Any(e => e.word_id == word_id);
+    }
+}
