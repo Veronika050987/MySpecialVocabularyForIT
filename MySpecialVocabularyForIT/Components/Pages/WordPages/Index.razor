@@ -30,7 +30,7 @@
     }
 </style>
 
-<h1>Index</h1>
+<h1>English-Russian dictionary with use explication</h1>
 
 <div style="display:flex;">
     <div>
@@ -45,9 +45,9 @@
     @* <PropertyColumn Property="word => word.photo" /> *@
 
     <TemplateColumn Context="word">
-        <a href="@($"words/edit?word_id={word.word_id}")">Edit</a> |
-        <a href="@($"words/details?word_id={word.word_id}")">Details</a> |
-        <a href="@($"words/delete?word_id={word.word_id}")">Delete</a>
+      @*   <a href="@($"words/edit?word_id={word.word_id}")">Edit</a> | *@
+        <a href="@($"words/details?word_id={word.word_id}")">Details</a> 
+@*         <a href="@($"words/delete?word_id={word.word_id}")">Delete</a> *@
     </TemplateColumn>
 </QuickGrid>
 
