@@ -1,4 +1,5 @@
 ﻿@page "/words"
+@rendermode InteractiveServer
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using MySpecialVocabularyForIT.Components.Models
@@ -38,21 +39,55 @@
     </div>
 </div>
 
-<QuickGrid Class="table" Items="context.Words">
-    <PropertyColumn Property="word => word.word_en" Title="Term in English"/>
-    <PropertyColumn Property="word => word.word_rus" Title="Translation into Russian"/>
-    <PropertyColumn Property="word => word.word_use_case" Title="Use explication" />
-    @* <PropertyColumn Property="word => word.photo" /> *@
 
-    <TemplateColumn Context="word">
-      @*   <a href="@($"words/edit?word_id={word.word_id}")">Edit</a> | *@
-        <a href="@($"words/details?word_id={word.word_id}")">Details</a> 
-@*         <a href="@($"words/delete?word_id={word.word_id}")">Delete</a> *@
-    </TemplateColumn>
-</QuickGrid>
+<div class="controls">
+    <form action="/words" data-enhance>
+        <input type="search" name="titleFilter" />
+        <input type="submit" value="Search" />
+    </form>
+    <div>
+        <label for="items-per-page">Items per page: </label>
+        <select id="items-per-page" @bind="pagination.ItemsPerPage">
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+        </select>
+    </div>
+</div>
+
+<div>
+    <QuickGrid Class="table" Items="FilteredWords" Pagination="pagination">
+        @* <PropertyColumn Property="word => word.word_en" Title="Term in English" /> *@
+        <TemplateColumn Title="word_en"
+                        Class="word-title"
+                        Sortable="true"
+                        InitialSortDirection="SortDirection.Ascending"
+                        IsDefaultSortColumn="true"
+                        SortBy="sortBy">
+            <a href="@($"words/details?id={context.word_id}")">@context.word_en</a>
+        </TemplateColumn>
+        <PropertyColumn Class="word-rus" Sortable="true" Property="word => word.word_rus" Title="Translation into Russian" />
+        <PropertyColumn Class="use-case" Sortable="true" Property="word => word.word_use_case" Title="Use explication" />
+        @* <PropertyColumn Property="word => word.photo" /> *@
+
+        @* <TemplateColumn Context="word"> *@
+            @*   <a href="@($"words/edit?word_id={word.word_id}")">Edit</a> | *@
+            @* <a href="@($"words/details?word_id={word.word_id}")">Details</a>  *@
+            @*         <a href="@($"words/delete?word_id={word.word_id}")">Delete</a> *@
+        @* </TemplateColumn> *@
+    </QuickGrid>
+    <Paginator State="pagination" />
+</div>
 
 @code {
     private MySpecialVocabularyForITContext context = default!;
+
+    [SupplyParameterFromQuery]
+    string? TitleFilter { get; set; }
+    GridSort<Word> sortBy = GridSort<Word>.ByAscending(p => p.word_en);
+
+    PaginationState pagination = new PaginationState { ItemsPerPage = 5 };
 
     protected override void OnInitialized()
     {
@@ -60,4 +95,6 @@
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
+    IQueryable<Word> FilteredWords =>
+    context.Words.Where(m => m.word_en.Contains(TitleFilter ?? string.Empty));
 }
