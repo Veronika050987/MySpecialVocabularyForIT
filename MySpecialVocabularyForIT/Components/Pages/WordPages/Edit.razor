@@ -6,6 +6,32 @@
 
 <PageTitle>Edit</PageTitle>
 
+<style>
+    /*for buttons colors*/
+    .custom-purple-button.btn-primary {
+        background-color: #8A2BE2;
+        border-color: #4B0082;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+        color: white;
+    }
+
+        .custom-purple-button.btn-primary:hover {
+            background-color: #BA55D3;
+            border-color: darkorchid;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12);
+        }
+
+    .custom-purple-button.disabled {
+        background-color: #D3D3D3;
+        border-color: #D3D3D3;
+        color: #6c757d;
+    }
+
+    .form-group-margin-top {
+        margin-top: 15px;
+    }
+</style>
+
 <h1>Edit</h1>
 
 <h2>Word</h2>
@@ -44,14 +70,14 @@ else
                     <InputText id="photo" @bind-Value="Word.photo" class="form-control" />
                     <ValidationMessage For="() => Word.photo" class="text-danger" />
                 </div> *@
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary custom-purple-button">Save</button>
             </EditForm>
         </div>
     </div>
 }
 
 <div>
-    <a href="/words">Back to List</a>
+    <a href="/words" class="btn btn-primary custom-purple-button form-group-margin-top">Back to List</a>
 </div>
 
 @code {
