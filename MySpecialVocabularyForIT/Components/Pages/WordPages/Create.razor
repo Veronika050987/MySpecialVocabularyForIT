@@ -6,6 +6,32 @@
 
 <PageTitle>Create</PageTitle>
 
+<style>
+    /*for buttons colors*/
+    .custom-purple-button.btn-primary {
+        background-color: #8A2BE2;
+        border-color: #4B0082;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+        color: white;
+    }
+
+        .custom-purple-button.btn-primary:hover {
+            background-color: #BA55D3;
+            border-color: darkorchid;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12);
+        }
+
+    .custom-purple-button.disabled {
+        background-color: #D3D3D3;
+        border-color: #D3D3D3;
+        color: #6c757d;
+    }
+
+    .form-group-margin-top {
+        margin-top: 15px;
+    }
+</style>
+
 <h1>Create</h1>
 
 <h2>Word</h2>
@@ -15,20 +41,20 @@
         <EditForm method="post" Model="Word" OnValidSubmit="AddWord" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
+            <div class="mb-3 blue-label">
                 <span class="text-danger">*</span>
-                <label for="word_en" class="form-label">word_en:</label> 
+                <label for="word_en" class="form-label">Term in English:</label>
                 <InputText id="word_en" @bind-Value="Word.word_en" class="form-control" aria-required="true"/> 
                 <ValidationMessage For="() => Word.word_en" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3 blue-label">
                 <span class="text-danger">*</span>
-                <label for="word_rus" class="form-label">word_rus:</label> 
+                <label for="word_rus" class="form-label">Translation into Russian:</label>
                 <InputText id="word_rus" @bind-Value="Word.word_rus" class="form-control" aria-required="true"/> 
                 <ValidationMessage For="() => Word.word_rus" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
-                <label for="word_use_case" class="form-label">word_use_case:</label> 
+            <div class="mb-3 blue-label">
+                <label for="word_use_case" class="form-label">Use explication:</label>
                 <InputText id="word_use_case" @bind-Value="Word.word_use_case" class="form-control" /> 
                 <ValidationMessage For="() => Word.word_use_case" class="text-danger" /> 
             </div>        
@@ -37,13 +63,13 @@
                 <InputText id="photo" @bind-Value="Word.photo" class="form-control" /> 
                 <ValidationMessage For="() => Word.photo" class="text-danger" /> 
             </div>   *@      
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary custom-purple-button">Create</button>
         </EditForm>
     </div>
 </div>
 
 <div>
-    <a href="/words">Back to List</a>
+    <a href="/words" class=" btn btn-primary custom-purple-button form-group-margin-top">Back to List</a>
 </div>
 
 @code {

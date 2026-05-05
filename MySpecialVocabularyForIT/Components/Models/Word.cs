@@ -12,7 +12,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 		public string word_en { get; set; }
 
 		[Required]
-		[StringLength(50, MinimumLength = 2)]
+		[StringLength(500, MinimumLength = 2)]
 		public string word_rus { get; set; }
 
 		public string word_use_case { get; set; }
