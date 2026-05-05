@@ -29,6 +29,10 @@
         border-color: #D3D3D3;
         color: #6c757d;
     }
+
+    .form-group-margin-top {
+        margin-top: 15px;
+    }
 </style>
 
 <h1>English-Russian dictionary with use explication</h1>
@@ -43,10 +47,10 @@
 <div class="controls">
     <form action="/words" data-enhance>
         <input type="search" name="titleFilter" />
-        <input type="submit" value="Search" />
+		<input type="submit" class="form-group-margin-top" value="Search" />
     </form>
     <div>
-        <label for="items-per-page">Items per page: </label>
+        <label for="items-per-page" class="form-group-margin-top">Items per page: </label>
         <select id="items-per-page" @bind="pagination.ItemsPerPage">
             <option value="3">3</option>
             <option value="5">5</option>
