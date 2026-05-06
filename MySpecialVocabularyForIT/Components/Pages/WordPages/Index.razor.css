@@ -11,7 +11,9 @@
 }
 ::deep .word-en {
     width: 50%;
+    color: #4682B4;
 }
 ::deep .word-rus {
     width: 40%;
+    color: #4682B4;
 }
