@@ -22,7 +22,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 		public string word_use_case { get; set; }
 
 		public byte[]? photo { get; set; }
-
+		public string? photoContentType { get; set; }
 		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 		{
 			var results = new List<ValidationResult>();
