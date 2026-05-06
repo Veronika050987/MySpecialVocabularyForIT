@@ -8,6 +8,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 		public int word_id { get; set; }
 
 		[Required]
+		[UniqueWordName(ErrorMessage = "This term already exists.")]
 		[StringLength(50, MinimumLength = 2)]
 		public string word_en { get; set; }
 
