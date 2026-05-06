@@ -11,9 +11,12 @@
 }
 ::deep .word-en {
     width: 50%;
-    color: #4682B4; /*for text color in columns in index*/
+    color: #0000FF; /*for text color in columns in index*/
 }
 ::deep .word-rus {
     width: 40%;
     color: #4682B4;
+}
+::deep .col-title-text {
+    color: darkred;
 }
