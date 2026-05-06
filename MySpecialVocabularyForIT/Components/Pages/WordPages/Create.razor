@@ -1,6 +1,10 @@
 ﻿@page "/words/create"
 @using Microsoft.EntityFrameworkCore
 @using MySpecialVocabularyForIT.Components.Models
+@using MySpecialVocabularyForIT.Data
+@using Microsoft.AspNetCore.Components.Forms
+@using System.IO
+@using System.Threading.Tasks
 @inject IDbContextFactory<MySpecialVocabularyForIT.Data.MySpecialVocabularyForITContext> DbFactory
 @inject NavigationManager NavigationManager
 
@@ -38,7 +42,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="Word" OnValidSubmit="AddWord" FormName="create" Enhance>
+        <EditForm method="post" Model="Word" OnValidSubmit="CreateWord" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3 blue-label">
@@ -58,11 +62,20 @@
                 <InputText id="word_use_case" @bind-Value="Word.word_use_case" class="form-control" /> 
                 <ValidationMessage For="() => Word.word_use_case" class="text-danger" /> 
             </div>        
-        @*     <div class="mb-3">
-                <label for="photo" class="form-label">photo:</label> 
-                <InputText id="photo" @bind-Value="Word.photo" class="form-control" /> 
-                <ValidationMessage For="() => Word.photo" class="text-danger" /> 
-            </div>   *@      
+            <div class="mb-3 blue-label">
+                <label for="photo" class="form-label">Photo:</label>
+                <InputFile id="photo" OnChange="OnPhotoChange" class="form-control" />
+
+                @if (Word.photo != null && Word.photo.Length > 0)
+                {
+                    <img src="" alt="Uploaded Photo" class="uploaded-photo" />
+                    <button type="button" class="btn btn-danger btn-sm" @onclick="RemovePhoto">Remove Photo</button>
+                }
+                else
+                {
+                    <p>No photo uploaded.</p>
+                }
+            </div>
             <button type="submit" class="btn btn-primary custom-purple-button">Create</button>
         </EditForm>
     </div>
@@ -77,11 +90,71 @@
     private Word Word { get; set; } = new();
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task AddWord()
+    protected override void OnInitialized()
+    {
+        // Ничего не нужно загружать, так как это создание нового объекта.
+        // Word уже инициализирован в поле класса.
+    }
+
+    private async Task OnPhotoChange(InputFileChangeEventArgs e)
+    {
+        if (e.File != null)
+        {
+            const long maxFileSize = 1024 * 1024 * 2; // 2MB
+            if (e.File.Size > maxFileSize)
+            {
+                // TODO: Обработка ошибки размера файла (например, через StateHasChanged и вывод сообщения)
+                return;
+            }
+
+            using var memoryStream = new MemoryStream();
+            await e.File.OpenReadStream().CopyToAsync(memoryStream);
+            Word.photo = memoryStream.ToArray();
+            StateHasChanged();
+        }
+    }
+
+    // Функция для генерации Data URL (идентична edit.razor)
+    private string GetPhotoSrc(byte[] photoBytes)
+    {
+        if (photoBytes == null || photoBytes.Length == 0) return "";
+        string mimeType = "image/jpeg"; // Предполагаем JPEG, нужно определить точнее при необходимости
+        return $"data:{mimeType};base64,{Convert.ToBase64String(photoBytes)}";
+    }
+
+    // Функция для удаления фото (идентична edit.razor)
+    private void RemovePhoto()
+    {
+        Word.photo = null;
+        StateHasChanged();
+    }
+
+    private async Task CreateWord()
     {
         using var context = DbFactory.CreateDbContext();
+
+        // Добавляем новый Word объект в контекст
         context.Words.Add(Word);
-        await context.SaveChangesAsync();
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            // Обработка ошибок при сохранении (например, дубликат, который не был пойман моделью)
+            // TODO: Реализовать более детальную обработку ошибок
+            throw;
+        }
+
+        // Перенаправляем на список слов после успешного создания
         NavigationManager.NavigateTo("/words");
     }
+    // private async Task AddWord()
+    // {
+    //     using var context = DbFactory.CreateDbContext();
+    //     context.Words.Add(Word);
+    //     await context.SaveChangesAsync();
+    //     NavigationManager.NavigateTo("/words");
+    // }
 }

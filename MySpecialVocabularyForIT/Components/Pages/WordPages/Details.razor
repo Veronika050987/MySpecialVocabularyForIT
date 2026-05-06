@@ -1,6 +1,7 @@
 ﻿@page "/words/details"
 @using Microsoft.EntityFrameworkCore
 @using MySpecialVocabularyForIT.Components.Models
+@using MySpecialVocabularyForIT.Data
 @inject IDbContextFactory<MySpecialVocabularyForIT.Data.MySpecialVocabularyForITContext> DbFactory
 @inject NavigationManager NavigationManager
 
@@ -49,8 +50,8 @@
             <dd class="col-sm-9">@word.word_rus</dd>
             <dt class="col-sm-3 blue-label">Use explication:</dt>
             <dd class="col-sm-9">@word.word_use_case</dd>
-            <dt class="col-sm-3 blue-label">photo</dt>
-            <dd class="col-sm-9">@word.photo</dd>
+@*             <dt class="col-sm-3 blue-label">photo</dt>
+            <dd class="col-sm-9">@word.photo</dd> *@
         </dl>
         <div>
             <div style="display:flex;">
