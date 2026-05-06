@@ -1,23 +1,63 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using MySpecialVocabularyForIT.Data;
+using System.ComponentModel.DataAnnotations;
+using MySpecialVocabularyForIT.Data;
 
 namespace MySpecialVocabularyForIT.Components.Models
 {
-	public class Word
+	public class Word : IValidatableObject
 	{
 		[Key]
 		public int word_id { get; set; }
 
-		[Required]
-		[UniqueWordName(ErrorMessage = "This term already exists.")]
+		[Required(ErrorMessage = "Term in English is required.")]
 		[StringLength(50, MinimumLength = 2)]
 		public string word_en { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "Translation into Russian is required.")]
 		[StringLength(500, MinimumLength = 2)]
 		public string word_rus { get; set; }
 
 		public string word_use_case { get; set; }
 
 		public byte[]? photo { get; set; }
+
+		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+		{
+			var results = new List<ValidationResult>();
+
+			// 1. Проверка уникальности word_en
+			if (!string.IsNullOrWhiteSpace(word_en))
+			{
+				// Получаем DbContextFactory из ValidationContext.ServiceProvider
+				var dbContextFactory = validationContext.GetService<IDbContextFactory<MySpecialVocabularyForITContext>>();
+				if (dbContextFactory == null)
+				{
+					// Если DbContextFactory недоступен, что маловероятно в Blazor
+					results.Add(new ValidationResult("Database context factory not available."));
+				}
+				else
+				{
+					using (var context = dbContextFactory.CreateDbContext())
+					{
+						// Проверяем, существует ли уже запись с таким word_en,
+						// ИСКЛЮЧАЯ текущую редактируемую запись.
+						var exists = context.Words.Any(d =>
+							d.word_en.ToLower() == word_en.ToLower() &&
+							d.word_id != this.word_id // Это ключевое условие для редактирования
+						);
+
+						if (exists)
+						{
+							// Добавляем ошибку валидации.
+							// Имя поля должно соответствовать имени свойства в модели.
+							results.Add(new ValidationResult($"A term with the name '{word_en}' already exists.", new[] { nameof(word_en) }));
+						}
+					}
+				}
+			}
+
+			return results;
+		}
 	}
 }

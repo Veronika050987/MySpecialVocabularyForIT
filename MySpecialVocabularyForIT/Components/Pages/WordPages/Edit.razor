@@ -90,37 +90,86 @@ else
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        Word ??= await context.Words.FirstOrDefaultAsync(m => m.word_id == word_id);
 
+        // Если word_id > 0 (то есть мы редактируем существующий элемент),
+        // загружаем его из базы данных.
+        if (word_id > 0)
+        {
+            Word = await context.Words.FindAsync(word_id);
+        }
+        else
+        {
+            // Если word_id = 0 (или не передан), создаем новый объект Word.
+            // Хотя для страницы редактирования это маловероятно,
+            // но такая проверка делает код более надежным.
+            Word = new Word();
+        }
+
+        // Если Word не найден (например, при редактировании несуществующего ID),
+        // перенаправляем на страницу ошибки.
         if (Word is null)
         {
             NavigationManager.NavigateTo("notfound");
         }
+        // Важно: Теперь Word загружен и привязан к EditForm.
+        // Для IValidatableObject не нужно явно создавать EditContext.
+        // Blazor сам позаботится об этом, когда вы используете Model="Word".
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task UpdateWord()
     {
+        // Если Валидация прошла успешно (метод OnValidSubmit вызывается только при успехе)
         using var context = DbFactory.CreateDbContext();
-        context.Attach(Word!).State = EntityState.Modified;
+
+        // Проверяем, является ли это новым элементом (word_id == 0) или редактированием
+        if (Word!.word_id == 0) // Создание нового
+        {
+            // Если при создании word_id был 0, и он пришел с формы,
+            // то это означает, что мы создаем новую запись.
+            // Важно: В этом случае, при создании, word_id будет 0,
+            // а при первом сохранении EF Core назначит новый ID.
+            context.Words.Add(Word);
+        }
+        else // Редактирование существующего
+        {
+            // Прикрепляем объект и устанавливаем состояние Modified.
+            // Это важно, чтобы EF Core понял, что нужно обновить существующую запись.
+            context.Attach(Word).State = EntityState.Modified;
+        }
 
         try
         {
             await context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException ex)
         {
+            // Обработка параллельных обновлений.
+            // Проверяем, существует ли еще запись.
             if (!WordExists(Word!.word_id))
             {
                 NavigationManager.NavigateTo("notfound");
+                return; // Прекращаем выполнение
             }
             else
             {
+                // Если запись существует, но произошла ошибка параллельного обновления.
+                // Возможно, нужно показать пользователю сообщение об этом.
+                // Или перезагрузить данные и попросить пользователя попробовать снова.
+                // В данном случае, просто перебрасываем исключение.
                 throw;
             }
         }
+        catch (Exception ex)
+        {
+            // Ловим другие возможные ошибки сохранения (например, нарушения ограничений базы данных)
+            // Здесь можно добавить логирование или обработку других исключений.
+            // Например, если есть уникальные ограничения на уровне БД, которые не были учтены в модели.
+            // В реальном приложении, стоит добавить более детальную обработку.
+            // В данном случае, мы просто перебрасываем исключение.
+            throw;
+        }
 
+        // После успешного сохранения перенаправляем на список слов.
         NavigationManager.NavigateTo("/words");
     }
 
