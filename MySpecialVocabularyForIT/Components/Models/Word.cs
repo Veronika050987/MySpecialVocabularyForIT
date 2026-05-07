@@ -12,7 +12,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 		public int word_id { get; set; }
 
 		[Required(ErrorMessage = "Term in English is required.")]
-		[StringLength(50, MinimumLength = 2)]
+		[StringLength(100, MinimumLength = 2)]
 		public string word_en { get; set; }
 
 		[Required(ErrorMessage = "Translation into Russian is required.")]
