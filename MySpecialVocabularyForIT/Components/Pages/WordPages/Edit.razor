@@ -67,6 +67,10 @@ else
                     <InputText id="word_use_case" @bind-Value="Word.word_use_case" class="form-control" />
                     <ValidationMessage For="() => Word.word_use_case" class="text-danger" />
                 </div>
+
+                <div class="photo-container">
+                    <Photo Word="@Word" allow_change=true />
+                </div>
                 @* <div class="mb-3 blue-label">
                     <label for="photo" class="form-label">Photo:</label>
                     <InputFile id="photo" OnChange="OnPhotoChange" class="form-control" />
