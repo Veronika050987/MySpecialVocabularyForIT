@@ -13,11 +13,11 @@
     height: 25px;
 }
 ::deep .word-en {
-    width: 50%;
+    width: 40%;
     color: #0000FF; /*for text color in columns in index*/
 }
 ::deep .word-rus {
-    width: 40%;
+    width: 55%;
     color: #4682B4;
 }
 ::deep .col-title-text {
