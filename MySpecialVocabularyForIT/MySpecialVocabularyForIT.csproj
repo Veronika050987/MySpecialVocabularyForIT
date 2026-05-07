@@ -21,4 +21,8 @@
     <Folder Include="wwwroot\svg\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Components\Pages\Home.razor" />
+  </ItemGroup>
+
 </Project>
