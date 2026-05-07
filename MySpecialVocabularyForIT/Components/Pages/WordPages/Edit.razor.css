@@ -1,8 +1,17 @@
-﻿h1 {
+﻿﻿EditForm {
+    width: 100%;
+}
+h1 {
     color: #9400D3;
 }
 .blue-label {
     color: blue; /* Ваш желаемый синий цвет */
     /* Можно добавить другие стили, если нужно */
     /* font-weight: bold; */
+}
+.photo-container {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
