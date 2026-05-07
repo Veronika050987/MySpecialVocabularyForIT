@@ -1,6 +1,9 @@
 ﻿h1 {
     color: #9400D3;
 }
+.text-center-container{
+    text-align:center;
+}
 ﻿.controls {
     display: flex;
     justify-content: space-between;
