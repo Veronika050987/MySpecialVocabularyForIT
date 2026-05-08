@@ -12,6 +12,14 @@ p {
     margin-top:40px;
     text-align: center;
 }
+
+    footer{
+        background-color: #CCEEFF;
+        padding: 10px 0;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 400px;
+    }
 </style>
 <PageTitle>Home</PageTitle>
 
@@ -19,8 +27,15 @@ p {
     <h1>📕IT English-Russian dictionary with use explication</h1>
 </div>
 
-
 <p>Welcome to "IT English-Russian dictionary" application.</p>
 <p>Here you can find the main special IT terms in English with Russian translation and use explication.</p>
 <p>Images are also added to simplify terms understanding.</p>
 <p>Thank you for using our product.</p>
+
+<footer>
+    Nika studio Copyright &#169; - @CurrentYear
+</footer>
+
+@code {
+    public int CurrentYear => DateTime.UtcNow.Year;
+}
