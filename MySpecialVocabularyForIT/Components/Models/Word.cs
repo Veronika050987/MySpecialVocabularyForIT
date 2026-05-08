@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.EntityFrameworkCore;
+using MySpecialVocabularyForIT.Components.Models.Validators;
+using MySpecialVocabularyForIT.Data;
 using MySpecialVocabularyForIT.Data;
 using System.ComponentModel.DataAnnotations;
-using MySpecialVocabularyForIT.Data;
-using Microsoft.AspNetCore.Components.Forms;
+using System.ComponentModel.DataAnnotations.Schema;
+using MySpecialVocabularyForIT.Components.Models.Validators;
 
 namespace MySpecialVocabularyForIT.Components.Models
 {
@@ -13,6 +16,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 
 		[Required(ErrorMessage = "Term in English is required.")]
 		[StringLength(100, MinimumLength = 2)]
+		[AllowedEnglishChars("a-zA-Z0-9.,!?'\"()\\-")]
 		public string word_en { get; set; }
 
 		[Required(ErrorMessage = "Translation into Russian is required.")]
