@@ -22,7 +22,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 		[Required(ErrorMessage = "Translation into Russian is required.")]
 		[StringLength(500, MinimumLength = 2)]
 		public string word_rus { get; set; }
-
+		[Required(ErrorMessage = "Use explication is required.")]
 		public string word_use_case { get; set; }
 
 		public byte[]? photo { get; set; }
