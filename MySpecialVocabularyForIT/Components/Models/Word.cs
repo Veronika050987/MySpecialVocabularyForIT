@@ -16,7 +16,7 @@ namespace MySpecialVocabularyForIT.Components.Models
 
 		[Required(ErrorMessage = "Term in English is required.")]
 		[StringLength(100, MinimumLength = 2)]
-		[AllowedEnglishChars("a-zA-Z0-9.,!?'\"()\\-")]
+		[AllowedEnglishChars("a-zA-Z0-9.,!?'\"()\\-<>")]
 		public string word_en { get; set; }
 
 		[Required(ErrorMessage = "Translation into Russian is required.")]
