@@ -43,17 +43,19 @@
         <p><em>Loading...</em></p>
     }
     else {
-        <dl class="row">
-            <dt class="col-sm-3 blue-label">Term in English:</dt>
-            <dd class="col-sm-9">@word.word_en</dd>
-            <dt class="col-sm-3 blue-label">Translation into Russian:</dt>
-            <dd class="col-sm-9">@word.word_rus</dd>
-            <dt class="col-sm-3 blue-label">Use explication:</dt>
-            <dd class="col-sm-9">@word.word_use_case</dd>
-        @*     <dt class="col-sm-3 blue-label">photo</dt>
-            <dd class="col-sm-9">@word.photo</dd> *@
+        <div class="word-container">
+            <dl class="row">
+                <dt class="col-sm-3 blue-label">Term in English:</dt>
+                <dd class="col-sm-9">@word.word_en</dd>
+                <dt class="col-sm-3 blue-label">Translation into Russian:</dt>
+                <dd class="col-sm-9">@word.word_rus</dd>
+                <dt class="col-sm-3 blue-label">Use explication:</dt>
+                <dd class="col-sm-9">@word.word_use_case</dd>
+                @*     <dt class="col-sm-3 blue-label">photo</dt>
+                <dd class="col-sm-9">@word.photo</dd> *@
+            </dl>
             <Photo Word="@word" allow_change=false />
-        </dl>
+        </div>
         <div>
             <div style="display:flex;">
                 <div>
