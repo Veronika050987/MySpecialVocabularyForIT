@@ -29,7 +29,9 @@
     }
 
     .form-group-margin-top {
-        margin-top: 15px;
+        margin-top: 50px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
     }
 </style>
 
@@ -51,8 +53,8 @@
                 <dd class="col-sm-9">@word.word_rus</dd>
                 <dt class="col-sm-3 blue-label">Use explication:</dt>
                 <dd class="col-sm-9">@word.word_use_case</dd>
-                <dt class="col-sm-3 blue-label">URL:</dt>
-                <dd class="col-sm-9"><a href="@word.URL">@word.URL</a></dd>
+                <dt class="col-sm-3 blue-label form-group-margin-top">URL:</dt>
+                <dd class="col-sm-9 form-group-margin-top"><a href="@word.URL">@word.URL</a></dd>
                 @*     <dt class="col-sm-3 blue-label">photo</dt>
                 <dd class="col-sm-9">@word.photo</dd> *@
             </dl>
