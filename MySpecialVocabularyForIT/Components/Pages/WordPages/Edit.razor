@@ -85,7 +85,7 @@ else
                         <p>No photo uploaded.</p>
                     }
                 </div> *@
-                <button type="submit" class="btn btn-primary custom-purple-button">Save</button>
+                <button type="submit" class="btn btn-primary custom-purple-button form-group-margin-top">Save</button>
             </EditForm>
         </div>
     </div>
@@ -130,43 +130,6 @@ else
         // Для IValidatableObject не нужно явно создавать EditContext.
         // Blazor сам позаботится об этом, когда вы используете Model="Word".
     }
-    // private async Task OnPhotoChange(InputFileChangeEventArgs e)
-    // {
-    //     if (e.File != null)
-    //     {
-    //         const long maxFileSize = 1024 * 1024 * 2; // 2MB
-    //         if (e.File.Size > maxFileSize)
-    //         {
-    //             // TODO: Обработка ошибки размера файла
-    //             return;
-    //         }
-
-    //         using var memoryStream = new MemoryStream();
-    //         await e.File.OpenReadStream().CopyToAsync(memoryStream);
-
-    //         Word!.photo = memoryStream.ToArray();
-    //         Word.photoContentType = e.File.ContentType; // Сохраняем MIME-тип
-    //         StateHasChanged(); // Обновляем UI для отображения превью
-    //     }
-    // }
-
-    // // Функция для генерации Data URL (для отображения фото)
-    // private string GetPhotoSrc(byte[] photoBytes, string contentType)
-    // {
-    //     if (photoBytes == null || photoBytes.Length == 0 || string.IsNullOrEmpty(contentType))
-    //     {
-    //         return "";
-    //     }
-    //     return $"data:{contentType};base64,{Convert.ToBase64String(photoBytes)}";
-    // }
-
-    // // Функция для удаления фото
-    // private void RemovePhoto()
-    // {
-    //     Word!.photo = null;
-    //     Word.photoContentType = null; // Обнуляем MIME-тип
-    //     StateHasChanged();
-    // }
     private async Task UpdateWord()
     {
         // Если Валидация прошла успешно (метод OnValidSubmit вызывается только при успехе)

@@ -81,7 +81,7 @@
                     <p>No photo uploaded.</p>
                 }
             </div> *@
-            <button type="submit" class="btn btn-primary custom-purple-button">Create</button>
+            <button type="submit" class="btn btn-primary custom-purple-button form-group-margin-top">Create</button>
         </EditForm>
     </div>
 </div>
@@ -101,65 +101,6 @@
         // Word уже инициализирован в поле класса.
     }
 
-    // private async Task OnPhotoChange(InputFileChangeEventArgs e)
-    // {
-    //     if (e.File != null)
-    //     {
-    //         const long maxFileSize = 1024 * 1024 * 2; // 2MB
-    //         if (e.File.Size > maxFileSize)
-    //         {
-    //             // TODO: Обработка ошибки размера файла
-    //             return;
-    //         }
-
-    //         using var memoryStream = new MemoryStream();
-    //         await e.File.OpenReadStream().CopyToAsync(memoryStream);
-
-    //         Word!.photo = memoryStream.ToArray();
-    //         Word.photoContentType = e.File.ContentType; // Сохраняем MIME-тип
-    //         StateHasChanged(); // Обновляем UI для отображения превью
-    //     }
-    // }
-
-    // // Функция для генерации Data URL (для отображения фото)
-    // private string GetPhotoSrc(byte[] photoBytes, string contentType)
-    // {
-    //     if (photoBytes == null || photoBytes.Length == 0 || string.IsNullOrEmpty(contentType))
-    //     {
-    //         return "";
-    //     }
-    //     return $"data:{contentType};base64,{Convert.ToBase64String(photoBytes)}";
-    // }
-
-    // // Функция для удаления фото
-    // private void RemovePhoto()
-    // {
-    //     Word!.photo = null;
-    //     Word.photoContentType = null; // Обнуляем MIME-тип
-    //     StateHasChanged();
-    // }
-
-    // private async Task CreateWord()
-    // {
-    //     using var context = DbFactory.CreateDbContext();
-
-    //     // Добавляем новый Word объект в контекст
-    //     context.Words.Add(Word);
-
-    //     try
-    //     {
-    //         await context.SaveChangesAsync();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         // Обработка ошибок при сохранении (например, дубликат, который не был пойман моделью)
-    //         // TODO: Реализовать более детальную обработку ошибок
-    //         throw;
-    //     }
-
-    //     // Перенаправляем на список слов после успешного создания
-    //     NavigationManager.NavigateTo("/words");
-    // }
     private async Task AddWord()
     {
         using var context = DbFactory.CreateDbContext();
