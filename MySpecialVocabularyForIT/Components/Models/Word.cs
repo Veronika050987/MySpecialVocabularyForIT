@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
+using MySpecialVocabularyForIT.Data;
 using MySpecialVocabularyForIT.Components.Models.Validators;
-using MySpecialVocabularyForIT.Data;
-using MySpecialVocabularyForIT.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MySpecialVocabularyForIT.Components.Models.Validators;
 
 namespace MySpecialVocabularyForIT.Components.Models
 {
