@@ -15,7 +15,7 @@ namespace MySpecialVocabularyForIT.Components.Models.Validators
 		//   .,!?'"()\- : знаки препинания и пробел (например)
 		//   + - один или более символов из предыдущего набора
 		// $ - конец строки
-		private const string AllowedCharsPattern = @"^[a-zA-Z0-9.,!?'""()\-<> ]+$";
+		private const string AllowedCharsPattern = @"^[a-zA-Z0-9.,!?'""()#+\-<> ]+$";
 		private readonly string _allowedCharsDescription;
 
 		public AllowedEnglishCharsAttribute(string allowedChars)
@@ -52,3 +52,4 @@ namespace MySpecialVocabularyForIT.Components.Models.Validators
 		}
 	}
 }
+
