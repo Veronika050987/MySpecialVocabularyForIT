@@ -9,32 +9,6 @@
 
 <PageTitle>Index</PageTitle>
 
-<style>
-    /*for buttons colors*/
-    .custom-purple-button.btn-primary {
-        background-color: #8A2BE2;
-        border-color: #4B0082;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
-        color: white;
-    }
-
-        .custom-purple-button.btn-primary:hover {
-            background-color: #BA55D3;
-            border-color: darkorchid;
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12);
-        }
-
-    .custom-purple-button.disabled {
-        background-color: #D3D3D3;
-        border-color: #D3D3D3;
-        color: #6c757d;
-    }
-
-    .form-group-margin-top {
-        margin-top: 15px;
-    }
-</style>
-
 <div class="text-center-container" style="background-color: #CCEEFF; padding: 8px;">
     <h1>📚IT English-Russian dictionary with use explication</h1>
 </div>
@@ -44,7 +18,6 @@
         <a href="words/create" class="btn btn-primary custom-purple-button form-group-margin-top">Create new</a>
     </div>
 </div>
-
 
 <div class="controls">
     <form action="/words" data-enhance>
@@ -78,7 +51,6 @@
                         Title="Translation into Russian"/>
 
         @* <PropertyColumn Class="use-case" Sortable="true" Property="word => word.word_use_case" Title="Use explication" /> *@
-        @* <PropertyColumn Property="word => word.photo" /> *@
 
         <TemplateColumn Context="word">
             @*   <a href="@($"words/edit?word_id={word.word_id}")">Edit</a> | *@
